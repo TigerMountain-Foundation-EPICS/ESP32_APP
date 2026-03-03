@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function validReadingData(data, deviceId) {
+      return data.keys().hasAll([
+          'id',
+          'timestamp',
+          'temperatureC',
+          'humidityPct',
+          'soilRawOrPct',
+          'soilPct',
+          'deviceId',
+          'source'
+        ])
+        && data.deviceId == deviceId
+        && data.timestamp is int
+        && data.timestamp > 0
+        && data.temperatureC is number
+        && data.temperatureC > -40
+        && data.temperatureC < 100
+        && data.humidityPct is number
+        && data.humidityPct >= 0
+        && data.humidityPct <= 100
+        && data.soilPct is number
+        && data.soilPct >= 0
+        && data.soilPct <= 100
+        && data.source in ['ble', 'demo'];
+    }
+
+    match /devices/{deviceId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn();
+
+      match /readings/{readingId} {
+        allow read: if signedIn();
+        allow create: if signedIn() && validReadingData(request.resource.data, deviceId);
+        allow update, delete: if false;
+      }
+
+      match /aggregates/{dayId} {
+        allow read: if signedIn();
+        allow write: if false;
+      }
+
+      match /alerts/{alertId} {
+        allow read: if signedIn();
+        allow write: if false;
+      }
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn();
+      allow delete: if false;
+    }
+  }
+}
