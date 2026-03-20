@@ -36,61 +36,98 @@ export const LivePage = () => {
 
   return (
     <div className="space-y-4">
-      <Card className="space-y-4">
+      <Card className="space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold">Live Stream</h2>
-            <p className="text-sm text-slate-500">Smoothed with moving average (window 6)</p>
+            <p className="eyebrow">Plant 01</p>
+            <h2 className="mt-2 text-3xl text-brand-navy">Live soil moisture</h2>
+            <p className="section-copy mt-2">Smoothed sensor history with the current moisture level featured first.</p>
           </div>
           <Button onClick={() => logReading(latestReading)} variant="secondary">
             Log Reading
           </Button>
         </div>
 
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
-              <XAxis dataKey="ts" tick={{ fontSize: 11 }} />
-              <YAxis tick={{ fontSize: 11 }} width={45} />
-              <Tooltip />
-              <Line type="monotone" dataKey="temperature" stroke="#1e293b" strokeWidth={1.5} dot={false} />
-              <Line type="monotone" dataKey="smoothed" stroke="#2563eb" strokeWidth={2.8} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="soft-panel">
+          <div className="flex flex-wrap items-end gap-4">
+            <div>
+              <p className="text-sm font-bold text-brand-sage">Current</p>
+              <p className="mt-2 text-5xl font-extrabold leading-none text-brand-sage">
+                {latestReading.soilPct.toFixed(0)}%
+              </p>
+            </div>
+            <div className="text-sm text-slate-500">
+              <p>Last updated {formatTimestamp(latestReading.timestamp)}</p>
+              <p>Stream window {chartData.length} recent packets</p>
+            </div>
+          </div>
+
+          <div className="mt-5 h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData} margin={{ top: 12, right: 8, left: -18, bottom: 0 }}>
+                <XAxis
+                  dataKey="ts"
+                  tick={{ fill: "#6b7280", fontSize: 11 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis hide />
+                <Tooltip />
+                <Line type="monotone" dataKey="soil" stroke="#76a8a2" strokeWidth={3} dot={false} />
+                <Line type="monotone" dataKey="humidity" stroke="#cfd9d3" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Latest Reading</h3>
-        <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
-          <p>Temperature: {formatTempLabel(latestReading.temperatureC, settings.units)}</p>
-          <p>Humidity: {latestReading.humidityPct.toFixed(1)}%</p>
-          <p>Soil: {latestReading.soilPct.toFixed(1)}%</p>
-          <p>Updated: {formatTimestamp(latestReading.timestamp)}</p>
+        <p className="eyebrow">Current Conditions</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="stat-tile">
+            <p className="text-sm text-slate-500">Temperature</p>
+            <p className="mt-2 text-3xl font-extrabold text-brand-navy">
+              {formatTempLabel(latestReading.temperatureC, settings.units)}
+            </p>
+          </div>
+          <div className="stat-tile">
+            <p className="text-sm text-slate-500">Humidity</p>
+            <p className="mt-2 text-3xl font-extrabold text-brand-navy">{latestReading.humidityPct.toFixed(0)}%</p>
+          </div>
+          <div className="stat-tile">
+            <p className="text-sm text-slate-500">Soil Moisture</p>
+            <p className="mt-2 text-3xl font-extrabold text-brand-navy">{latestReading.soilPct.toFixed(0)}%</p>
+          </div>
+          <div className="stat-tile">
+            <p className="text-sm text-slate-500">Battery</p>
+            <p className="mt-2 text-3xl font-extrabold text-brand-navy">
+              {latestReading.batteryV?.toFixed(2) ?? "--"}V
+            </p>
+          </div>
         </div>
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Recent Packets</h3>
+        <p className="eyebrow">Recent Packets</p>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[520px] text-left text-sm">
-            <thead className="text-slate-500">
+          <table className="app-table min-w-[520px]">
+            <thead>
               <tr>
-                <th className="pb-2">Time</th>
-                <th className="pb-2">Temp</th>
-                <th className="pb-2">Humidity</th>
-                <th className="pb-2">Soil</th>
-                <th className="pb-2">Source</th>
+                <th>Time</th>
+                <th>Temp</th>
+                <th>Humidity</th>
+                <th>Soil</th>
+                <th>Source</th>
               </tr>
             </thead>
             <tbody>
               {readings.slice(0, 12).map((reading) => (
-                <tr key={reading.id} className="border-t border-border">
-                  <td className="py-2">{formatTimestamp(reading.timestamp)}</td>
-                  <td className="py-2">{formatTempLabel(reading.temperatureC, settings.units)}</td>
-                  <td className="py-2">{reading.humidityPct.toFixed(1)}%</td>
-                  <td className="py-2">{reading.soilPct.toFixed(1)}%</td>
-                  <td className="py-2 uppercase tracking-wide text-slate-500">{reading.source}</td>
+                <tr key={reading.id}>
+                  <td>{formatTimestamp(reading.timestamp)}</td>
+                  <td>{formatTempLabel(reading.temperatureC, settings.units)}</td>
+                  <td>{reading.humidityPct.toFixed(1)}%</td>
+                  <td>{reading.soilPct.toFixed(1)}%</td>
+                  <td className="uppercase tracking-[0.16em] text-slate-500">{reading.source}</td>
                 </tr>
               ))}
             </tbody>

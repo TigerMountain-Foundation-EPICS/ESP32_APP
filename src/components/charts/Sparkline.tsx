@@ -2,7 +2,7 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 
 export const Sparkline = ({
   values,
-  color = "#2563eb"
+  color = "#76a8a2"
 }: {
   values: number[];
   color?: string;
@@ -10,7 +10,7 @@ export const Sparkline = ({
   const points = values.map((value, index) => ({ index, value }));
 
   if (!points.length) {
-    return <div className="h-16 rounded-lg bg-slate-100" />;
+    return <div className="h-16 rounded-[20px] bg-brand-mist/70" />;
   }
 
   return (

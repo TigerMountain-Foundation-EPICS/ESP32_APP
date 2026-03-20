@@ -25,8 +25,9 @@ export const DevicePage = () => {
       <Card className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold">BLE Device</h2>
-            <p className="text-sm text-slate-500">Scan, connect, monitor notifications</p>
+            <p className="eyebrow">Sensor Pairing</p>
+            <h2 className="mt-2 text-3xl text-brand-navy">Connect to your field sensor</h2>
+            <p className="section-copy mt-2">Scan, reconnect, and keep the telemetry stream stable from one control card.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => void runDeviceAction(connect)} variant="primary">
@@ -50,70 +51,77 @@ export const DevicePage = () => {
         </div>
 
         <div className="grid gap-3 text-sm md:grid-cols-2">
-          <p className="rounded-xl border border-border bg-slate-50 p-3">
-            <span className="block text-xs uppercase tracking-wide text-slate-500">Device Name</span>
-            <span className="font-medium">{snapshot.device?.name ?? "Not connected"}</span>
-          </p>
-          <p className="rounded-xl border border-border bg-slate-50 p-3">
-            <span className="block text-xs uppercase tracking-wide text-slate-500">Firmware</span>
-            <span className="font-medium">{snapshot.device?.firmwareVersion ?? "Not exposed"}</span>
-          </p>
-          <p className="rounded-xl border border-border bg-slate-50 p-3">
-            <span className="block text-xs uppercase tracking-wide text-slate-500">Last Packet</span>
-            <span className="font-medium">{formatTimestamp(snapshot.lastPacketAt)}</span>
-          </p>
-          <p className="rounded-xl border border-border bg-slate-50 p-3">
-            <span className="block text-xs uppercase tracking-wide text-slate-500">Support</span>
-            <span className="font-medium">{isBleSupported ? "Web Bluetooth available" : "Web Bluetooth unavailable"}</span>
-          </p>
+          <div className="stat-tile">
+            <span className="block text-xs uppercase tracking-[0.18em] text-slate-500">Device Name</span>
+            <span className="mt-2 block text-xl font-extrabold text-brand-navy">
+              {snapshot.device?.name ?? "Not connected"}
+            </span>
+          </div>
+          <div className="stat-tile">
+            <span className="block text-xs uppercase tracking-[0.18em] text-slate-500">Firmware</span>
+            <span className="mt-2 block text-xl font-extrabold text-brand-navy">
+              {snapshot.device?.firmwareVersion ?? "Not exposed"}
+            </span>
+          </div>
+          <div className="stat-tile">
+            <span className="block text-xs uppercase tracking-[0.18em] text-slate-500">Last Packet</span>
+            <span className="mt-2 block text-xl font-extrabold text-brand-navy">{formatTimestamp(snapshot.lastPacketAt)}</span>
+          </div>
+          <div className="stat-tile">
+            <span className="block text-xs uppercase tracking-[0.18em] text-slate-500">Support</span>
+            <span className="mt-2 block text-xl font-extrabold text-brand-navy">
+              {isBleSupported ? "Web Bluetooth available" : "Web Bluetooth unavailable"}
+            </span>
+          </div>
         </div>
       </Card>
 
       <Card className="space-y-3">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Calibration</h3>
+        <p className="eyebrow">Calibration</p>
+        <h3 className="text-3xl text-brand-navy">Tune soil mapping</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="text-sm">
-            <span className="mb-1 block text-slate-500">Soil raw min (wet)</span>
+            <span className="mb-2 block text-slate-500">Soil raw min (wet)</span>
             <input
               type="number"
               value={settings.soilCalibration.min}
               onChange={(event) =>
                 setSoilCalibration({ ...settings.soilCalibration, min: Number(event.target.value) })
               }
-              className="w-full rounded-lg border border-border px-3 py-2"
+              className="app-input"
             />
           </label>
           <label className="text-sm">
-            <span className="mb-1 block text-slate-500">Soil raw max (dry)</span>
+            <span className="mb-2 block text-slate-500">Soil raw max (dry)</span>
             <input
               type="number"
               value={settings.soilCalibration.max}
               onChange={(event) =>
                 setSoilCalibration({ ...settings.soilCalibration, max: Number(event.target.value) })
               }
-              className="w-full rounded-lg border border-border px-3 py-2"
+              className="app-input"
             />
           </label>
         </div>
       </Card>
 
       <Card className="space-y-3 text-sm">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">BLE Strategy</h3>
-        <p className="rounded-xl border border-border bg-slate-50 p-3">
+        <p className="eyebrow">BLE Strategy</p>
+        <p className="rounded-[24px] border border-border bg-brand-cream/80 p-4">
           Service UUID: <code>{BLE_SERVICE_UUID}</code>
           <br />
           Notify characteristic: <code>{BLE_NOTIFY_CHARACTERISTIC_UUID}</code>
         </p>
-        <p className="flex items-start gap-2 rounded-xl border border-border bg-slate-50 p-3">
-          <BluetoothSearching className="mt-0.5 h-4 w-4 text-accent" />
+        <p className="flex items-start gap-2 rounded-[24px] border border-border bg-brand-cream/80 p-4">
+          <BluetoothSearching className="mt-0.5 h-4 w-4 text-brand-olive" />
           Primary web path uses Web Bluetooth notifications with JSON-first and binary fallback payload parsing.
         </p>
-        <p className="flex items-start gap-2 rounded-xl border border-border bg-slate-50 p-3">
-          <Smartphone className="mt-0.5 h-4 w-4 text-accent" />
+        <p className="flex items-start gap-2 rounded-[24px] border border-border bg-brand-cream/80 p-4">
+          <Smartphone className="mt-0.5 h-4 w-4 text-brand-sage" />
           iPhone reliability path: package this app with Capacitor and use `@capacitor-community/bluetooth-le` as a native BLE bridge.
         </p>
         {!isBleSupported && (
-          <p className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-900">
+          <p className="flex items-start gap-2 rounded-[24px] border border-amber-200 bg-amber-50 p-4 text-amber-900">
             <AlertCircle className="mt-0.5 h-4 w-4" />
             This browser does not expose Web Bluetooth. Use Demo Mode or a Chromium browser.
           </p>

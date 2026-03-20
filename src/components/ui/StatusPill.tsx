@@ -1,17 +1,19 @@
 import { ConnectionStatus } from "../../types";
 
 const palette: Record<ConnectionStatus, string> = {
-  idle: "bg-slate-200 text-slate-700",
-  scanning: "bg-amber-100 text-amber-800",
-  connecting: "bg-amber-100 text-amber-800",
-  connected: "bg-emerald-100 text-emerald-800",
-  reconnecting: "bg-blue-100 text-blue-800",
-  disconnected: "bg-slate-200 text-slate-700",
-  error: "bg-red-100 text-red-800"
+  idle: "border-white/20 bg-white/10 text-white",
+  scanning: "border-brand-orange/20 bg-brand-orange/20 text-white",
+  connecting: "border-brand-orange/20 bg-brand-orange/20 text-white",
+  connected: "border-emerald-300/30 bg-emerald-300/20 text-white",
+  reconnecting: "border-brand-sage/30 bg-brand-sage/20 text-white",
+  disconnected: "border-white/20 bg-white/10 text-white/80",
+  error: "border-rose-300/30 bg-rose-300/20 text-white"
 };
 
 export const StatusPill = ({ status }: { status: ConnectionStatus }) => (
-  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${palette[status]}`}>
+  <span
+    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] ${palette[status]}`}
+  >
     <span className="h-1.5 w-1.5 rounded-full bg-current" />
     {status}
   </span>

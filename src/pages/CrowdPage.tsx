@@ -349,8 +349,9 @@ export const CrowdPage = () => {
       <Card className="space-y-3">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold">Crowd Detection (ONNX + Webcam)</h2>
-            <p className="text-sm text-slate-500">
+            <p className="eyebrow">Crowd Vision</p>
+            <h2 className="mt-2 text-3xl text-brand-navy">Crowd Detection (ONNX + Webcam)</h2>
+            <p className="section-copy mt-2">
               Runs ONNX inference directly on your Mac webcam frames and overlays person detections in real time.
             </p>
           </div>
@@ -361,21 +362,23 @@ export const CrowdPage = () => {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-border bg-slate-50 p-3">
+          <div className="stat-tile">
             <p className="text-xs uppercase tracking-wide text-slate-500">People detected</p>
-            <p className="mt-1 text-2xl font-semibold">{personCount}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand-navy">{personCount}</p>
           </div>
-          <div className="rounded-xl border border-border bg-slate-50 p-3">
+          <div className="stat-tile">
             <p className="text-xs uppercase tracking-wide text-slate-500">Inference latency</p>
-            <p className="mt-1 text-2xl font-semibold">{inferenceMs ? `${inferenceMs.toFixed(1)} ms` : "--"}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand-navy">
+              {inferenceMs ? `${inferenceMs.toFixed(1)} ms` : "--"}
+            </p>
           </div>
-          <div className="rounded-xl border border-border bg-slate-50 p-3">
+          <div className="stat-tile">
             <p className="text-xs uppercase tracking-wide text-slate-500">Model</p>
-            <p className="mt-1 text-2xl font-semibold">{modelStatusLabel}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand-navy">{modelStatusLabel}</p>
           </div>
-          <div className="rounded-xl border border-border bg-slate-50 p-3">
+          <div className="stat-tile">
             <p className="text-xs uppercase tracking-wide text-slate-500">Last analyzed</p>
-            <p className="mt-1 text-base font-semibold">
+            <p className="mt-1 text-base font-semibold text-brand-navy">
               {lastAnalyzedAt ? new Date(lastAnalyzedAt).toLocaleTimeString() : "--"}
             </p>
           </div>
@@ -383,12 +386,12 @@ export const CrowdPage = () => {
       </Card>
 
       <Card className="space-y-3">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Model Setup</h3>
+        <p className="eyebrow">Model Setup</p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <input
             value={modelUrl}
             onChange={(event) => setModelUrl(event.target.value)}
-            className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm"
+            className="app-input"
             placeholder="/models/crowd-detection.onnx"
             aria-label="ONNX model URL"
           />
@@ -404,7 +407,7 @@ export const CrowdPage = () => {
           </Button>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-[18px] border border-brand-navy/10 bg-brand-cream px-4 py-3 text-sm font-extrabold text-brand-navy hover:bg-white">
             <input
               type="file"
               accept=".onnx"
@@ -449,7 +452,7 @@ export const CrowdPage = () => {
           </Button>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-slate-900" style={{ aspectRatio: "16 / 9" }}>
+        <div className="relative overflow-hidden rounded-[30px] border border-border bg-slate-900" style={{ aspectRatio: "16 / 9" }}>
           <video ref={videoRef} autoPlay muted playsInline className="h-full w-full object-contain" />
           <canvas ref={overlayRef} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
           {cameraStatus !== "ready" && (
@@ -475,31 +478,31 @@ export const CrowdPage = () => {
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Top Detections</h3>
+        <p className="eyebrow">Top Detections</p>
         {detections.length === 0 ? (
           <p className="mt-3 text-sm text-slate-500">No people detected in the current frame.</p>
         ) : (
           <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[500px] text-left text-sm">
-              <thead className="text-slate-500">
+            <table className="app-table min-w-[500px]">
+              <thead>
                 <tr>
-                  <th className="pb-2">#</th>
-                  <th className="pb-2">Confidence</th>
-                  <th className="pb-2">X</th>
-                  <th className="pb-2">Y</th>
-                  <th className="pb-2">Width</th>
-                  <th className="pb-2">Height</th>
+                  <th>#</th>
+                  <th>Confidence</th>
+                  <th>X</th>
+                  <th>Y</th>
+                  <th>Width</th>
+                  <th>Height</th>
                 </tr>
               </thead>
               <tbody>
                 {detections.slice(0, 10).map((detection, index) => (
-                  <tr key={`${detection.x}-${detection.y}-${detection.score}-${index}`} className="border-t border-border">
-                    <td className="py-2">{index + 1}</td>
-                    <td className="py-2">{(detection.score * 100).toFixed(1)}%</td>
-                    <td className="py-2">{detection.x.toFixed(0)}</td>
-                    <td className="py-2">{detection.y.toFixed(0)}</td>
-                    <td className="py-2">{detection.width.toFixed(0)}</td>
-                    <td className="py-2">{detection.height.toFixed(0)}</td>
+                  <tr key={`${detection.x}-${detection.y}-${detection.score}-${index}`}>
+                    <td>{index + 1}</td>
+                    <td>{(detection.score * 100).toFixed(1)}%</td>
+                    <td>{detection.x.toFixed(0)}</td>
+                    <td>{detection.y.toFixed(0)}</td>
+                    <td>{detection.width.toFixed(0)}</td>
+                    <td>{detection.height.toFixed(0)}</td>
                   </tr>
                 ))}
               </tbody>

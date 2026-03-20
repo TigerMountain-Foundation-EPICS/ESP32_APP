@@ -3,7 +3,7 @@ export const LoadingSkeleton = ({ rows = 3 }: { rows?: number }) => (
     {Array.from({ length: rows }).map((_, index) => (
       <div
         key={index}
-        className="h-5 w-full animate-pulse rounded-md bg-slate-200"
+        className="h-5 w-full animate-pulse rounded-full bg-brand-mist"
         style={{ width: `${100 - index * 8}%` }}
       />
     ))}

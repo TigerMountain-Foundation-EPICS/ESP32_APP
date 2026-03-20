@@ -52,35 +52,39 @@ export const SettingsPage = () => {
   return (
     <div className="space-y-4">
       <Card className="space-y-4">
-        <h2 className="text-lg font-semibold">Application</h2>
+        <div>
+          <p className="eyebrow">Profile</p>
+          <h2 className="mt-2 text-3xl text-brand-navy">{user?.email ?? user?.uid ?? "Garden Volunteer"}</h2>
+          <p className="mt-1 text-base font-bold text-brand-orange">ESP32 Sensor Foundation</p>
+        </div>
 
-        <label className="flex items-center justify-between rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
+        <label className="flex items-center justify-between rounded-[24px] border border-border bg-brand-cream/80 px-4 py-3 text-sm">
           Demo Mode
           <input
             type="checkbox"
             checked={settings.demoMode}
             onChange={(event) => toggleDemo(event.target.checked)}
-            className="h-4 w-4"
+            className="app-toggle"
           />
         </label>
 
-        <label className="flex items-center justify-between rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
+        <label className="flex items-center justify-between rounded-[24px] border border-border bg-brand-cream/80 px-4 py-3 text-sm">
           Simulate Device Connected
           <input
             type="checkbox"
             checked={settings.demoConnected}
             onChange={(event) => setDemoConnected(event.target.checked)}
-            className="h-4 w-4"
+            className="app-toggle"
           />
         </label>
 
-        <label className="flex items-center justify-between rounded-xl border border-border bg-slate-50 px-4 py-3 text-sm">
+        <label className="flex items-center justify-between rounded-[24px] border border-border bg-brand-cream/80 px-4 py-3 text-sm">
           Enable Firebase
           <input
             type="checkbox"
             checked={settings.firebaseEnabled}
             onChange={(event) => setFirebaseEnabled(event.target.checked)}
-            className="h-4 w-4"
+            className="app-toggle"
             disabled={!firebaseAvailable}
           />
         </label>
@@ -92,11 +96,11 @@ export const SettingsPage = () => {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="text-sm">
-            <span className="mb-1 block text-slate-500">Temperature units</span>
+            <span className="mb-2 block text-slate-500">Temperature units</span>
             <select
               value={settings.units}
               onChange={(event) => setUnits(event.target.value as "C" | "F")}
-              className="w-full rounded-lg border border-border px-3 py-2"
+              className="app-select"
             >
               <option value="C">Celsius (°C)</option>
               <option value="F">Fahrenheit (°F)</option>
@@ -106,7 +110,8 @@ export const SettingsPage = () => {
       </Card>
 
       <Card className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Thresholds</h3>
+        <p className="eyebrow">User Settings</p>
+        <h3 className="text-3xl text-brand-navy">Thresholds</h3>
 
         <div className="grid gap-3 sm:grid-cols-3">
           <label className="text-sm">
@@ -120,7 +125,7 @@ export const SettingsPage = () => {
                   temperatureHighC: Number(event.target.value)
                 })
               }
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2"
+              className="app-input mt-2"
             />
           </label>
           <label className="text-sm">
@@ -134,7 +139,7 @@ export const SettingsPage = () => {
                   humidityLowPct: Number(event.target.value)
                 })
               }
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2"
+              className="app-input mt-2"
             />
           </label>
           <label className="text-sm">
@@ -148,7 +153,7 @@ export const SettingsPage = () => {
                   soilLowPct: Number(event.target.value)
                 })
               }
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2"
+              className="app-input mt-2"
             />
           </label>
         </div>
@@ -159,7 +164,7 @@ export const SettingsPage = () => {
 
         <Link
           to="/test-run"
-          className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          className="app-link-ghost"
         >
           Open Test Run Page
           <ArrowUpRight className="h-4 w-4" />
@@ -167,30 +172,31 @@ export const SettingsPage = () => {
       </Card>
 
       <Card className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Firebase Auth</h3>
+        <p className="eyebrow">Firebase Auth</p>
+        <h3 className="text-3xl text-brand-navy">Login or create an account</h3>
 
         <p className="text-sm text-slate-600">
           Current user: <span className="font-medium text-slate-900">{user?.email ?? user?.uid ?? "None"}</span>
         </p>
 
         <form className="grid gap-3 sm:grid-cols-2" onSubmit={submitSignIn}>
-          <label className="text-sm">
+          <label className="text-sm sm:col-span-2">
             Email
             <input
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2"
+              className="app-input mt-2"
               autoComplete="email"
             />
           </label>
-          <label className="text-sm">
+          <label className="text-sm sm:col-span-2">
             Password
             <input
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-border px-3 py-2"
+              className="app-input mt-2"
               autoComplete="current-password"
             />
           </label>
@@ -241,7 +247,7 @@ export const SettingsPage = () => {
           href="https://capacitorjs.com/docs/apis/bluetooth-le"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 text-sm text-accent underline-offset-2 hover:underline"
+          className="inline-flex items-center gap-1 text-sm text-brand-olive underline-offset-2 hover:underline"
         >
           iPhone native bridge option (Capacitor BLE)
           <ArrowUpRight className="h-4 w-4" />

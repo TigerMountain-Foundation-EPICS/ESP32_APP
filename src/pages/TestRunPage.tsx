@@ -18,8 +18,9 @@ export const TestRunPage = () => {
   return (
     <div className="space-y-4">
       <Card>
-        <h2 className="text-lg font-semibold">Test Run</h2>
-        <p className="text-sm text-slate-500">Complete dashboard render with deterministic-looking sample data.</p>
+        <p className="eyebrow">Preview Data</p>
+        <h2 className="mt-2 text-3xl text-brand-navy">Test Run</h2>
+        <p className="section-copy mt-2">Complete dashboard render with deterministic-looking sample data.</p>
       </Card>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -44,15 +45,15 @@ export const TestRunPage = () => {
       </section>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Sample Packets</h3>
+        <p className="eyebrow">Sample Packets</p>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[680px] text-sm">
-            <thead className="text-left text-slate-500">
+          <table className="app-table min-w-[680px]">
+            <thead>
               <tr>
-                <th className="pb-2">Time</th>
-                <th className="pb-2">Temperature</th>
-                <th className="pb-2">Humidity</th>
-                <th className="pb-2">Soil</th>
+                <th>Time</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Soil</th>
               </tr>
             </thead>
             <tbody>
@@ -60,11 +61,11 @@ export const TestRunPage = () => {
                 .slice(-20)
                 .reverse()
                 .map((row) => (
-                  <tr key={row.id} className="border-t border-border">
-                    <td className="py-2">{new Date(row.timestamp).toLocaleString()}</td>
-                    <td className="py-2">{formatTempLabel(row.temperatureC, settings.units)}</td>
-                    <td className="py-2">{row.humidityPct.toFixed(1)}%</td>
-                    <td className="py-2">{row.soilPct.toFixed(1)}%</td>
+                  <tr key={row.id}>
+                    <td>{new Date(row.timestamp).toLocaleString()}</td>
+                    <td>{formatTempLabel(row.temperatureC, settings.units)}</td>
+                    <td>{row.humidityPct.toFixed(1)}%</td>
+                    <td>{row.soilPct.toFixed(1)}%</td>
                   </tr>
                 ))}
             </tbody>

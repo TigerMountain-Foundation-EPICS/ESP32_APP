@@ -67,39 +67,50 @@ export const HistoryPage = () => {
   return (
     <div className="space-y-4">
       <Card className="space-y-4">
-        <div className="flex flex-wrap items-end gap-3">
-          <label className="text-sm">
-            <span className="mb-1 block text-slate-500">Start</span>
-            <input
-              type="date"
-              value={startDay}
-              onChange={(event) => setStartDay(event.target.value)}
-              className="rounded-lg border border-border px-3 py-2"
-            />
-          </label>
-          <label className="text-sm">
-            <span className="mb-1 block text-slate-500">End</span>
-            <input
-              type="date"
-              value={endDay}
-              onChange={(event) => setEndDay(event.target.value)}
-              className="rounded-lg border border-border px-3 py-2"
-            />
-          </label>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">Weekly Report</p>
+            <h2 className="mt-2 text-3xl text-brand-navy">Moisture and climate history</h2>
+          </div>
+          <div className="flex flex-wrap items-end gap-3">
+            <label className="text-sm">
+              <span className="mb-2 block text-slate-500">Start</span>
+              <input
+                type="date"
+                value={startDay}
+                onChange={(event) => setStartDay(event.target.value)}
+                className="app-input"
+              />
+            </label>
+            <label className="text-sm">
+              <span className="mb-2 block text-slate-500">End</span>
+              <input
+                type="date"
+                value={endDay}
+                onChange={(event) => setEndDay(event.target.value)}
+                className="app-input"
+              />
+            </label>
+          </div>
         </div>
 
         {readingsQuery.isLoading ? (
           <LoadingSkeleton rows={5} />
         ) : chartData.length ? (
-          <div className="h-72">
+          <div className="soft-panel h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
-                <XAxis dataKey="label" tick={{ fontSize: 11 }} />
-                <YAxis tick={{ fontSize: 11 }} width={46} />
+              <LineChart data={chartData} margin={{ top: 8, right: 8, left: -14, bottom: 0 }}>
+                <XAxis
+                  dataKey="label"
+                  tick={{ fill: "#6b7280", fontSize: 11 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis hide />
                 <Tooltip />
-                <Line type="monotone" dataKey="temp" stroke="#2563eb" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="humidity" stroke="#1e293b" strokeWidth={1.8} dot={false} />
-                <Line type="monotone" dataKey="soil" stroke="#0f766e" strokeWidth={1.6} dot={false} />
+                <Line type="monotone" dataKey="temp" stroke="#ef7c28" strokeWidth={2.4} dot={false} />
+                <Line type="monotone" dataKey="humidity" stroke="#17386c" strokeWidth={2.1} dot={false} />
+                <Line type="monotone" dataKey="soil" stroke="#76a8a2" strokeWidth={2.6} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -109,63 +120,73 @@ export const HistoryPage = () => {
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Daily Aggregates</h3>
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="text-slate-500">
-              <tr>
-                <th className="pb-2">Day</th>
-                <th className="pb-2">Temp Min/Avg/Max</th>
-                <th className="pb-2">Humidity Min/Avg/Max</th>
-                <th className="pb-2">Soil Min/Avg/Max</th>
-                <th className="pb-2">Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(aggregatesQuery.data ?? []).map((entry) => (
-                <tr key={entry.id} className="border-t border-border">
-                  <td className="py-2">{formatDateOnly(entry.day)}</td>
-                  <td className="py-2">
+        <p className="eyebrow">Daily Aggregates</p>
+        <div className="mt-4 space-y-3">
+          {(aggregatesQuery.data ?? []).length === 0 && !aggregatesQuery.isLoading ? (
+            <p className="text-sm text-slate-500">No aggregate rows are available for this range.</p>
+          ) : null}
+          {(aggregatesQuery.data ?? []).map((entry) => (
+            <div key={entry.id} className="rounded-[28px] bg-brand-cream/80 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-lg font-extrabold text-brand-navy">{formatDateOnly(entry.day)}</p>
+                  <p className="text-sm text-slate-500">{entry.count} captured packets</p>
+                </div>
+                <div className="rounded-full bg-white px-3 py-1 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-olive">
+                  {entry.deviceId}
+                </div>
+              </div>
+
+              <div className="mt-4 grid gap-3 md:grid-cols-3">
+                <div className="stat-tile">
+                  <p className="text-sm text-slate-500">Temperature</p>
+                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
                     {formatTempLabel(entry.minTemperatureC, settings.units)} /{" "}
                     {formatTempLabel(entry.avgTemperatureC, settings.units)} /{" "}
                     {formatTempLabel(entry.maxTemperatureC, settings.units)}
-                  </td>
-                  <td className="py-2">
+                  </p>
+                </div>
+                <div className="stat-tile">
+                  <p className="text-sm text-slate-500">Humidity</p>
+                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
                     {entry.minHumidityPct.toFixed(1)}% / {entry.avgHumidityPct.toFixed(1)}% /{" "}
                     {entry.maxHumidityPct.toFixed(1)}%
-                  </td>
-                  <td className="py-2">
-                    {entry.minSoilPct.toFixed(1)}% / {entry.avgSoilPct.toFixed(1)}% / {entry.maxSoilPct.toFixed(1)}%
-                  </td>
-                  <td className="py-2">{entry.count}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </p>
+                </div>
+                <div className="stat-tile">
+                  <p className="text-sm text-slate-500">Soil Moisture</p>
+                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
+                    {entry.minSoilPct.toFixed(1)}% / {entry.avgSoilPct.toFixed(1)}% /{" "}
+                    {entry.maxSoilPct.toFixed(1)}%
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Reading Table</h3>
+        <p className="eyebrow">Reading Table</p>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[700px] text-left text-sm">
-            <thead className="text-slate-500">
+          <table className="app-table min-w-[700px]">
+            <thead>
               <tr>
-                <th className="pb-2">Timestamp</th>
-                <th className="pb-2">Temp</th>
-                <th className="pb-2">Humidity</th>
-                <th className="pb-2">Soil</th>
-                <th className="pb-2">Source</th>
+                <th>Timestamp</th>
+                <th>Temp</th>
+                <th>Humidity</th>
+                <th>Soil</th>
+                <th>Source</th>
               </tr>
             </thead>
             <tbody>
               {(readingsQuery.data ?? []).slice(0, 60).map((reading) => (
-                <tr key={reading.id} className="border-t border-border">
-                  <td className="py-2">{new Date(reading.timestamp).toLocaleString()}</td>
-                  <td className="py-2">{formatTempLabel(reading.temperatureC, settings.units)}</td>
-                  <td className="py-2">{reading.humidityPct.toFixed(1)}%</td>
-                  <td className="py-2">{reading.soilPct.toFixed(1)}%</td>
-                  <td className="py-2 uppercase tracking-wide text-slate-500">{reading.source}</td>
+                <tr key={reading.id}>
+                  <td>{new Date(reading.timestamp).toLocaleString()}</td>
+                  <td>{formatTempLabel(reading.temperatureC, settings.units)}</td>
+                  <td>{reading.humidityPct.toFixed(1)}%</td>
+                  <td>{reading.soilPct.toFixed(1)}%</td>
+                  <td className="uppercase tracking-[0.16em] text-slate-500">{reading.source}</td>
                 </tr>
               ))}
             </tbody>

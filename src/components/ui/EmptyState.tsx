@@ -5,8 +5,9 @@ export const EmptyState = ({
   title: string;
   description: string;
 }) => (
-  <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-10 text-center text-slate-600">
-    <h3 className="text-base font-semibold text-slate-800">{title}</h3>
-    <p className="mt-2 text-sm">{description}</p>
+  <div className="rounded-[30px] border border-dashed border-border bg-white/90 px-6 py-12 text-center text-slate-600 shadow-card">
+    <p className="eyebrow">No Data Yet</p>
+    <h3 className="mt-3 text-3xl text-brand-navy">{title}</h3>
+    <p className="section-copy mt-3">{description}</p>
   </div>
 );
