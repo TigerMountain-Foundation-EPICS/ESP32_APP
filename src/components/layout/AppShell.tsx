@@ -57,8 +57,8 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
             <div className="pointer-events-none absolute -left-10 bottom-0 h-28 w-28 rounded-full bg-brand-sage/20 blur-3xl" />
             <div className="relative flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-extrabold tracking-[0.18em] text-brand-orange">ESP32 GREENHOUSE</p>
-                <h1 className="mt-2 text-[2.4rem] leading-none text-white sm:text-[2.8rem]">VitaPlant</h1>
+                <p className="text-sm font-extrabold tracking-[0.18em] text-brand-orange">TigerMountain Foundation</p>
+                <h1 className="mt-2 text-[2.4rem] leading-none text-white sm:text-[2.8rem]">Tiger Tracking</h1>
                 <p className="mt-2 max-w-xl text-sm leading-6 text-white/72">{meta.subtitle}</p>
               </div>
               <div className="flex flex-col items-start gap-2 sm:items-end">

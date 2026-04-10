@@ -63,7 +63,7 @@ export const DashboardPage = () => {
       detail: `Last packet ${formatTimestamp(snapshot.lastPacketAt)}`,
       to: "/live",
       action: "View Live Stream",
-      accent: "bg-brand-orange/20 text-brand-orange"
+      accent: "bg-brand-olive/20 text-brand-olive"
     },
     {
       eyebrow: "Plant 02",
@@ -73,7 +73,7 @@ export const DashboardPage = () => {
       detail: `Alert floor ${settings.thresholds.humidityLowPct}%`,
       to: "/history",
       action: "View Weekly Log",
-      accent: "bg-brand-sage/20 text-brand-sage"
+      accent: "bg-brand-olive/20 text-brand-olive"
     },
     {
       eyebrow: "Plant 03",
@@ -89,63 +89,18 @@ export const DashboardPage = () => {
 
   return (
     <div className="space-y-4">
-      <Card className="overflow-hidden bg-brand-navy text-white shadow-shell">
-        <p className="eyebrow text-brand-orange">Today In The Garden</p>
-        <div className="mt-4 grid gap-4 xl:grid-cols-[1.12fr,0.88fr]">
-          <div>
-            <h2 className="text-[2.35rem] leading-none text-white sm:text-[2.9rem]">Healthy greenhouse pulse</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/74">
-              The dashboard now mirrors your PDF direction with quick-glance cards, rounded action panels, and a
-              strong mobile-first hierarchy for field use.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold">
-              <span className="rounded-full bg-white/10 px-3 py-2 text-white/80">
-                {snapshot.device?.name ?? "Demo ESP32"}
-              </span>
-              <span className="rounded-full bg-white/10 px-3 py-2 text-white/80">
-                {localOnly ? "Offline-first sync" : "Cloud sync active"}
-              </span>
-              <span className="rounded-full bg-white/10 px-3 py-2 text-white/80">
-                {readings.length} packets buffered
-              </span>
-            </div>
-          </div>
-
-          <div className="soft-panel bg-white/10 text-white">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[22px] bg-white/10 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Temperature</p>
-                <p className="mt-2 text-3xl font-extrabold">{formatTempLabel(latestReading.temperatureC, settings.units)}</p>
-              </div>
-              <div className="rounded-[22px] bg-white/10 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Humidity</p>
-                <p className="mt-2 text-3xl font-extrabold">{formatPercent(latestReading.humidityPct)}</p>
-              </div>
-              <div className="rounded-[22px] bg-white/10 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Soil</p>
-                <p className="mt-2 text-3xl font-extrabold">{formatPercent(latestReading.soilPct)}</p>
-              </div>
-              <div className="rounded-[22px] bg-white/10 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Battery</p>
-                <p className="mt-2 text-3xl font-extrabold">{latestReading.batteryV?.toFixed(2) ?? "--"}V</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
-
       <section className="grid gap-4 xl:grid-cols-3">
         {overviewCards.map((card) => (
           <Card key={card.title} className="space-y-4">
             <div>
-              <p className="text-xl font-extrabold text-brand-olive">{card.eyebrow}</p>
+              <p className="text-xl font-extrabold text-brand-navy">{card.eyebrow}</p>
               <p className="mt-1 text-base text-slate-500">{card.title}</p>
             </div>
             <div className={`inline-flex rounded-full px-3 py-1 text-xs font-extrabold ${card.accent}`}>
               {card.status}
             </div>
             <div>
-              <p className="text-4xl font-extrabold leading-none text-brand-navy">{card.value}</p>
+              <p className="text-4xl font-extrabold leading-none text-brand-orange">{card.value}</p>
               <p className="mt-3 text-sm text-slate-600">{card.detail}</p>
             </div>
             <Link to={card.to} className="app-link-button w-full">
@@ -177,25 +132,22 @@ export const DashboardPage = () => {
           </div>
         </Card>
 
-        <Card className="overflow-hidden bg-brand-navy text-white">
+        <Card className="overflow-hidden bg-brand-navy">
           <div className="flex items-start gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-brand-orange/20 text-brand-orange">
-              <Waves className="h-5 w-5" />
-            </div>
             <div>
               <p className="eyebrow text-brand-orange">Watering Suggestion</p>
-              <h2 className="mt-2 text-3xl text-white">Keep the next cycle intentional</h2>
+              <h2 className="mt-2 text-3xl text-brand-navy">Keep the next cycle intentional</h2>
             </div>
           </div>
           <p className="mt-4 text-sm leading-6 text-white/76">{irrigationSuggestion}</p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[22px] bg-white/10 p-4">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Source</p>
-              <p className="mt-2 text-lg font-bold capitalize text-white">{latestReading.source}</p>
+              <p className="mt-2 text-lg font-bold capitalize text-navy">{latestReading.source}</p>
             </div>
             <div className="rounded-[22px] bg-white/10 p-4">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-white/56">Updated</p>
-              <p className="mt-2 text-lg font-bold text-white">{formatTimestamp(latestReading.timestamp)}</p>
+              <p className="mt-2 text-lg font-bold text-navy">{formatTimestamp(latestReading.timestamp)}</p>
             </div>
           </div>
         </Card>

@@ -92,7 +92,7 @@ a {
   }
 
   .app-link-button {
-    @apply inline-flex items-center justify-center gap-2 rounded-[18px] border border-brand-olive bg-brand-olive px-4 py-3 text-sm font-extrabold text-white shadow-float transition hover:bg-[#5d7c36];
+    @apply inline-flex items-center justify-center gap-2 rounded-[18px] border border-brand-navy bg-brand-navy px-4 py-3 text-sm font-extrabold text-white shadow-float transition hover:bg-[#5d7c36];
   }
 
   .app-link-ghost {
