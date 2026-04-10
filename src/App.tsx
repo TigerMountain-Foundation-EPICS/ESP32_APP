@@ -19,7 +19,6 @@ const SettingsPage = lazy(() =>
 const TestRunPage = lazy(() =>
   import("./pages/TestRunPage").then((module) => ({ default: module.TestRunPage }))
 );
-const CrowdPage = lazy(() => import("./pages/CrowdPage").then((module) => ({ default: module.CrowdPage })));
 
 export const App = () => (
   <AppShell>
@@ -31,7 +30,6 @@ export const App = () => (
         <Route path="/device" element={<DevicePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/test-run" element={<TestRunPage />} />
-        <Route path="/crowd" element={<CrowdPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
