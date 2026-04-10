@@ -1,5 +1,7 @@
 # ESP32 Sensor Console (React + TypeScript + PWA)
 
+<a href="https://vitaplant-esp32-ui-20260319.vercel.app/"> Vercel Version of App </a> 
+
 Offline-first telemetry console for ESP32 sensor data with optional BLE + Firebase sync and an ONNX webcam crowd-detection page.
 
 ## What Works Now
