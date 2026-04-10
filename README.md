@@ -29,7 +29,7 @@ Use this path to trial the UI immediately.
 5. Verify pages:
    - Dashboard: cards and quick health render with live demo values
    - Live: chart updates and `Log Reading` works
-   - History: date filters, chart, table, and daily aggregates render
+   - History: date filters, chart, and table
    - Device: connection status/calibration UI renders without crashing
    - Crowd AI: page loads and controls render
    - Settings: toggles/thresholds persist

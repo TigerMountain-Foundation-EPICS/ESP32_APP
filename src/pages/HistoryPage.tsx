@@ -120,53 +120,6 @@ export const HistoryPage = () => {
       </Card>
 
       <Card>
-        <p className="eyebrow">Daily Aggregates</p>
-        <div className="mt-4 space-y-3">
-          {(aggregatesQuery.data ?? []).length === 0 && !aggregatesQuery.isLoading ? (
-            <p className="text-sm text-slate-500">No aggregate rows are available for this range.</p>
-          ) : null}
-          {(aggregatesQuery.data ?? []).map((entry) => (
-            <div key={entry.id} className="rounded-[28px] bg-brand-cream/80 p-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-lg font-extrabold text-brand-navy">{formatDateOnly(entry.day)}</p>
-                  <p className="text-sm text-slate-500">{entry.count} captured packets</p>
-                </div>
-                <div className="rounded-full bg-white px-3 py-1 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-olive">
-                  {entry.deviceId}
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                <div className="stat-tile">
-                  <p className="text-sm text-slate-500">Temperature</p>
-                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
-                    {formatTempLabel(entry.minTemperatureC, settings.units)} /{" "}
-                    {formatTempLabel(entry.avgTemperatureC, settings.units)} /{" "}
-                    {formatTempLabel(entry.maxTemperatureC, settings.units)}
-                  </p>
-                </div>
-                <div className="stat-tile">
-                  <p className="text-sm text-slate-500">Humidity</p>
-                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
-                    {entry.minHumidityPct.toFixed(1)}% / {entry.avgHumidityPct.toFixed(1)}% /{" "}
-                    {entry.maxHumidityPct.toFixed(1)}%
-                  </p>
-                </div>
-                <div className="stat-tile">
-                  <p className="text-sm text-slate-500">Soil Moisture</p>
-                  <p className="mt-2 text-xl font-extrabold text-brand-navy">
-                    {entry.minSoilPct.toFixed(1)}% / {entry.avgSoilPct.toFixed(1)}% /{" "}
-                    {entry.maxSoilPct.toFixed(1)}%
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      <Card>
         <p className="eyebrow">Reading Table</p>
         <div className="mt-3 overflow-x-auto">
           <table className="app-table min-w-[700px]">
