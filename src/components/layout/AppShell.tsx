@@ -8,7 +8,6 @@ const tabs = [
   { to: "/live", label: "Live", icon: Gauge },
   { to: "/history", label: "Weekly", icon: History },
   { to: "/device", label: "Sensor", icon: Bluetooth },
-  { to: "/crowd", label: "Crowd", icon: Users },
   { to: "/settings", label: "Profile", icon: Settings }
 ];
 
