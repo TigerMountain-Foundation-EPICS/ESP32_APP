@@ -62,7 +62,7 @@ export const DashboardPage = () => {
       status: temperatureState,
       detail: `Last packet ${formatTimestamp(snapshot.lastPacketAt)}`,
       to: "/live",
-      action: "View Live Stream",
+      action: "View Data",
       accent: "bg-brand-olive/20 text-brand-olive"
     },
     {
@@ -70,9 +70,9 @@ export const DashboardPage = () => {
       title: "Humidity",
       value: formatPercent(latestReading.humidityPct),
       status: humidityState,
-      detail: `Alert floor ${settings.thresholds.humidityLowPct}%`,
-      to: "/history",
-      action: "View Weekly Log",
+      detail: `Last packet ${formatTimestamp(snapshot.lastPacketAt)}`,
+      to: "/live",
+      action: "View Data",
       accent: "bg-brand-olive/20 text-brand-olive"
     },
     {
@@ -80,9 +80,9 @@ export const DashboardPage = () => {
       title: "Soil Moisture",
       value: formatPercent(latestReading.soilPct),
       status: soilState,
-      detail: `Raw sensor ${Math.round(latestReading.soilRawOrPct)}`,
-      to: "/device",
-      action: "Sensor Details",
+      detail: `Last packet ${formatTimestamp(snapshot.lastPacketAt)}`,
+      to: "/live",
+      action: "View Data",
       accent: "bg-brand-olive/20 text-brand-olive"
     }
   ];
